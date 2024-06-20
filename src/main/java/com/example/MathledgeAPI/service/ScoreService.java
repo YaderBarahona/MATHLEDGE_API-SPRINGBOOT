@@ -22,6 +22,10 @@ public class ScoreService {
         return scoreRepository.findById(id);
     }
 
+    public Optional<Score> getScoreByNombre(String nombre) {
+        return scoreRepository.findByNombre(nombre);
+    }
+
     public Score saveScore(Score score) {
         return scoreRepository.save(score);
     }

@@ -51,6 +51,22 @@ public class ScoreController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @PutMapping("/{nombre}")
+    public ResponseEntity<Score> updateScoreByName(@PathVariable String nombre, @RequestBody Score newScore) {
+        Optional<Score> score = scoreService.getScoreByNombre(nombre);
+        if (score.isPresent()) {
+            Score existingScore = score.get();
+            existingScore.setScore(newScore.getScore());
+            final Score updatedScore = scoreService.saveScore(existingScore);
+            return ResponseEntity.ok(updatedScore);
+        } else {
+            // Si no existe un puntaje con ese nombre, crea uno nuevo
+            newScore.setNombre(nombre);
+            Score savedScore = scoreService.saveScore(newScore);
+            return ResponseEntity.ok(savedScore);
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteScore(@PathVariable Long id) {
