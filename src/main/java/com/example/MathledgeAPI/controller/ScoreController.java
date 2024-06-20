@@ -18,8 +18,11 @@ public class ScoreController {
 
     @GetMapping
     public List<Score> getAllScores() {
-        return scoreService.getAllScores();
+        List<Score> scores = scoreService.getAllScores();
+        scores.sort((s1, s2) -> s2.getScore() - s1.getScore());
+        return scores;
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Score> getScoreById(@PathVariable Long id) {
