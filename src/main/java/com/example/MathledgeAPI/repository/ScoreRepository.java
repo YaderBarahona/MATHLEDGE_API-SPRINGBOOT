@@ -7,6 +7,5 @@ import com.example.MathledgeAPI.model.Score;
 import java.util.Optional;
 
 public interface ScoreRepository extends JpaRepository<Score, Long> {
-    Optional<Score> findByNombre(String nombre);
     Optional<Score> findTopByOrderByScoreDesc();
 }

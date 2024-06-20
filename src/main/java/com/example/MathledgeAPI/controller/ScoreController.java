@@ -39,35 +39,15 @@ public class ScoreController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Score> updateScore(@PathVariable Long id, @RequestBody Score scoreDetails) {
+    public ResponseEntity<Score> updateScoreById(@PathVariable Long id, @RequestBody Score newScore) {
         Optional<Score> score = scoreService.getScoreById(id);
-        if (score.isPresent()) {
-            Score existingScore = score.get();
-            existingScore.setNombre(scoreDetails.getNombre());
-            existingScore.setScore(scoreDetails.getScore());
-            final Score updatedScore = scoreService.saveScore(existingScore);
-            return ResponseEntity.ok(updatedScore);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
-    @PutMapping("/{nombre}")
-    public ResponseEntity<Score> updateScoreByName(@PathVariable String nombre, @RequestBody Score newScore) {
-        //System.out.println("Intentando actualizar puntaje para nombre: " + nombre);
-        Optional<Score> score = scoreService.getScoreByNombre(nombre);
         if (score.isPresent()) {
             Score existingScore = score.get();
             existingScore.setScore(newScore.getScore());
             final Score updatedScore = scoreService.saveScore(existingScore);
-            //System.out.println("Puntaje actualizado exitosamente para nombre: " + nombre);
             return ResponseEntity.ok(updatedScore);
         } else {
-            // Si no existe un puntaje con ese nombre, crea uno nuevo
-            newScore.setNombre(nombre);
-            Score savedScore = scoreService.saveScore(newScore);
-            //System.out.println("Nuevo puntaje creado para nombre: " + nombre);
-            return ResponseEntity.ok(savedScore);
+            return ResponseEntity.notFound().build();
         }
     }
 
